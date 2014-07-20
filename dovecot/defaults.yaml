@@ -1,0 +1,15 @@
+{% load_yaml as rawmap %}
+Debian:
+  pkgs:
+    - dovecot-imapd
+    - dovecot-pop3d
+    - dovecot-lmtpd
+    - dovecot-sieve
+    - dovecot-managesieved
+  service: {}
+  config:
+    manage:
+      - main
+    main:
+      path: /etc/dovecot/dovecot.conf
+{% endload %}
