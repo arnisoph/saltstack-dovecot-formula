@@ -29,7 +29,7 @@ Available states
 .. contents::
     :local:
 
-´`dovecot``
+``dovecot``
 ~~~~~~~~~~~
 Setup and configure Dovecot
 
