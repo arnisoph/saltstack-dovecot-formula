@@ -12,4 +12,6 @@ Debian:
       - main
     main:
       path: /etc/dovecot/dovecot.conf
+    defaults_file:
+      path: /etc/default/dovecot
 {% endload %}
