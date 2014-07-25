@@ -1,0 +1,10 @@
+{%- set config = salt['pillar.get']('dovecot:settings:' ~ comp, [])|sort -%}
+
+{%- for s in config -%}
+{{ '\n# ' ~ s.name|default('(No section name provided)') }}
+{{ s.sect_prepend|default('') -}}
+  {%- for k, v in s|dictsort if k != 'name' and k != 'sect_prepend' and k != 'sect_append' %}
+{{ k }} = {{ v }}
+  {%- endfor %}
+{{ s.sect_append|default('') -}}
+{% endfor -%}

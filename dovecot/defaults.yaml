@@ -10,8 +10,50 @@ Debian:
   config:
     manage:
       - main
-    main:
-      path: /etc/dovecot/dovecot.conf
+      - common
+      - lda
+      - logging
+      - quota
+      - sieve
+      - master
+      - mail
+      - mailboxes
+      - ssl
+      - managesieve
+      - pop3
+      - imap
+      - auth_passwdfile
     defaults_file:
       path: /etc/default/dovecot
+    main:
+      path: /etc/dovecot/dovecot.conf
+      template_path: salt://dovecot/files/main
+    common:
+      path: /etc/dovecot/conf.d/5-common.conf
+    master:
+      path: /etc/dovecot/conf.d/10-master.conf
+    mail:
+      path: /etc/dovecot/conf.d/10-mail.conf
+    logging:
+      path: /etc/dovecot/conf.d/10-logging.conf
+    auth:
+      path: /etc/dovecot/conf.d/10-auth.conf
+    ssl:
+      path: /etc/dovecot/conf.d/10-ssl.conf
+    lda:
+      path: /etc/dovecot/conf.d/15-lda.conf
+    mailboxes:
+      path: /etc/dovecot/conf.d/15-mailboxes.conf
+    managesieve:
+      path: /etc/dovecot/conf.d/20-managesieve.conf
+    pop3:
+      path: /etc/dovecot/conf.d/20-pop3.conf
+    imap:
+      path: /etc/dovecot/conf.d/20-imap.conf
+    quota:
+      path: /etc/dovecot/conf.d/90-quota.conf
+    sieve:
+      path: /etc/dovecot/conf.d/90-sieve.conf
+    auth_passwdfile:
+      path: /etc/dovecot/conf.d/95-auth-passwdfile.conf
 {% endload %}

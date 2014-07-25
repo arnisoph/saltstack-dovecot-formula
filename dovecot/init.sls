@@ -14,14 +14,16 @@ dovecot:
     - name: {{ datamap.service.name|default('dovecot') }}
     - enable: {{ datamap.service.enable|default(True) }}
 
+{% set ddf = datamap.config.defaults_file %}
 dovecot_defaults_file:
   file:
     - managed
-    - name: {{ datamap.config.defaults_file.path }}
-    - source: {{ f.template_path|default('salt://dovecot/files/defaults_file.' ~ salt['grains.get']('oscodename')) }}
-    - mode: {{ f.mode|default(640) }}
-    - user: {{ f.user|default('root') }}
-    - group: {{ f.group)|default('dovecot') }}
+    - name: {{ ddf.path }}
+    - source: {{ ddf.template_path|default('salt://dovecot/files/defaults_file.' ~ salt['grains.get']('oscodename')) }}
+    - mode: {{ ddf.mode|default(640) }}
+    - user: {{ ddf.user|default('root') }}
+    - group: {{ ddf.group|default('dovecot') }}
+    - template: jinja
     - watch_in:
       - service: dovecot
 
@@ -31,10 +33,21 @@ dovecot_file_{{ i }}:
   file:
     - managed
     - name: {{ f.path }}
-    - source: {{ f.template_path|default('salt://dovecot/files/' ~ i) }}
+    - source: {{ f.template_path|default('salt://dovecot/files/generic') }}
     - mode: {{ f.mode|default(640) }}
     - user: {{ f.user|default('root') }}
-    - group: {{ f.group)|default('dovecot') }}
+    - group: {{ f.group|default('dovecot') }}
+    - template: jinja
+    - context:
+      comp: {{ i }}
     - watch_in:
       - service: dovecot
 {% endfor %}
+
+dovecot_passwd:
+  file:
+    - managed
+    - name: /etc/dovecot/passwd
+    - mode: 600
+    - user: dovecot
+    - group: root
