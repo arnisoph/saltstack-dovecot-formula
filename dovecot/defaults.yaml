@@ -23,6 +23,7 @@ Debian:
       - pop3
       - imap
       - auth_passwdfile
+      - auth
     defaults_file:
       path: /etc/default/dovecot
     main:
