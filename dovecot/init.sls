@@ -3,7 +3,8 @@
 {% from 'dovecot/defaults.yaml' import rawmap with context %}
 {% set datamap = salt['grains.filter_by'](rawmap, merge=salt['pillar.get']('dovecot:lookup')) %}
 
-#TODO do we need postfix?
+include: {{ datamap.sls_include|default([]) }}
+extend: {{ datamap.sls_extend|default({}) }}
 
 dovecot:
   pkg:
