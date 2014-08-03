@@ -1,4 +1,10 @@
 dovecot:
+  lookup:
+    pkgs:
+      - dovecot-imapd
+      - dovecot-sieve
+      - dovecot-managesieved
+      - dovecot-ldap
   settings:
     common:
       - name: Misc settings
