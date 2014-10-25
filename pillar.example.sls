@@ -10,12 +10,18 @@ dovecot:
       - name: Misc settings
         login_greeting: server ready
         listen: '*, [::]'
-        protocols: imap pop3 lmtp sieve
+        protocols: imap pop3 lmtp
         mail_plugins: quota sieve
     lda:
       - name: LDA specific settings (also used by LMTP)
         postmaster_address: postmaster@domain.local
         hostname: dovecot.domain.local
+    lmtp:
+      - name: LMTP
+        sect_append: |
+            protocol lmtp {
+              mail_plugins = $mail_plugins sieve
+            }
     logging:
       - name: Logging
         auth_verbose: 'yes'

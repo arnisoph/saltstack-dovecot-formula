@@ -15,16 +15,36 @@ dovecot:
     - name: {{ datamap.service.name|default('dovecot') }}
     - enable: {{ datamap.service.enable|default(True) }}
 
-{% set ddf = datamap.config.defaults_file %}
+{% set f = datamap.config.defaults_file %}
 dovecot_defaults_file:
   file:
     - managed
-    - name: {{ ddf.path }}
-    - source: {{ ddf.template_path|default('salt://dovecot/files/defaults_file.' ~ salt['grains.get']('oscodename')) }}
-    - mode: {{ ddf.mode|default(640) }}
-    - user: {{ ddf.user|default('root') }}
-    - group: {{ ddf.group|default('dovecot') }}
+    - name: {{ f.path }}
+    - source: {{ f.template_path|default('salt://dovecot/files/defaults_file.' ~ salt['grains.get']('oscodename')) }}
+    - mode: {{ f.mode|default(640) }}
+    - user: {{ f.user|default('root') }}
+    - group: {{ f.group|default('dovecot') }}
     - template: jinja
+    - watch_in:
+      - service: dovecot
+
+{% set f = datamap.config.sieve_global_dir %}
+dovecot_sieve_global_dir:
+  file:
+    - recurse
+    - name: {{ f.path }}
+    - source: {{ f.source|default('salt://dovecot/files/sieve_global') }}
+    - file_mode: {{ f.file_mode|default(644) }}
+    - dir_mode: {{ f.dir_mode|default(755) }}
+    - user: {{ f.user|default('root') }}
+    - group: {{ f.group|default('root') }}
+
+dovecot_sieve_global_compile:
+  cmd:
+    - wait
+    - name: sievec {{ datamap.config.sieve_global_dir.path }}
+    - watch:
+      - file: dovecot_sieve_global_dir
     - watch_in:
       - service: dovecot
 

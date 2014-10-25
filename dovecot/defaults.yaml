@@ -26,6 +26,8 @@ Debian:
       - auth
     defaults_file:
       path: /etc/default/dovecot
+    sieve_global_dir:
+      path: /etc/dovecot/sieve
     main:
       path: /etc/dovecot/dovecot.conf
       template_path: salt://dovecot/files/main
@@ -47,6 +49,8 @@ Debian:
       path: /etc/dovecot/conf.d/15-mailboxes.conf
     managesieve:
       path: /etc/dovecot/conf.d/20-managesieve.conf
+    lmtp:
+      path: /etc/dovecot/conf.d/20-lmtp.conf
     pop3:
       path: /etc/dovecot/conf.d/20-pop3.conf
     imap:
