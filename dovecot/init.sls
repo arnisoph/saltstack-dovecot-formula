@@ -15,7 +15,7 @@ dovecot:
     - name: {{ datamap.service.name|default('dovecot') }}
     - enable: {{ datamap.service.enable|default(True) }}
 
-{% set f = datamap.config.defaults_file %}
+{% set f = datamap.config.defaults_file|default({}) %}
 dovecot_defaults_file:
   file:
     - managed
@@ -28,7 +28,16 @@ dovecot_defaults_file:
     - watch_in:
       - service: dovecot
 
-{% set f = datamap.config.sieve_global_dir %}
+{% set f = datamap.config.dsync_backup_dir|default({}) %}
+dovecot_dsync_backup_dir:
+  file:
+    - directory
+    - name: {{ f.path|default('/var/backups/dsync') }}
+    - mode: {{ f.mode|default(700) }}
+    - user: {{ f.user|default('mail') }}
+    - group: {{ f.group|default('mail') }}
+
+{% set f = datamap.config.sieve_global_dir|default({}) %}
 dovecot_sieve_global_dir:
   file:
     - recurse
@@ -44,6 +53,7 @@ dovecot_sieve_global_compile:
     - wait
     - name: sievec {{ datamap.config.sieve_global_dir.path }}
     - cwd: /var/tmp
+    - user: root
     - watch:
       - file: dovecot_sieve_global_dir
     - watch_in:
