@@ -25,8 +25,9 @@ dovecot:
     logging:
       - name: Logging
         auth_verbose: 'yes'
-        verbose_ssl: 'no'
+        verbose_ssl: 'yes'
         log_timestamp: '"%Y-%m-%d %H:%M:%S "'
+        login_log_format_elements: '"user=<%u> method=%m rip=%r lip=%l mpid=%e %c %k"'
     auth:
       - name: Authentication processes
         disable_plaintext_auth: 'yes'

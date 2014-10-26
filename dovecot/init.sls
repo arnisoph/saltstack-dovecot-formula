@@ -43,6 +43,7 @@ dovecot_sieve_global_compile:
   cmd:
     - wait
     - name: sievec {{ datamap.config.sieve_global_dir.path }}
+    - cwd: /var/tmp
     - watch:
       - file: dovecot_sieve_global_dir
     - watch_in:
