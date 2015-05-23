@@ -67,7 +67,7 @@ dovecot_file_{{ i }}:
     - name: {{ f.path }}
     - source: {{ f.template_path|default('salt://dovecot/files/generic') }}
     - mode: {{ f.mode|default(640) }}
-    - user: {{ f.user|default('root') }}
+    - user: {{ f.user|default('dovecot') }}
     - group: {{ f.group|default('dovecot') }}
     - template: jinja
     - context:
