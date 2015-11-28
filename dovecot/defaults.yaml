@@ -9,6 +9,7 @@ Debian:
   service: {}
   config:
     manage:
+      - defaults_file
       - main
       - common
       - lda
@@ -26,6 +27,62 @@ Debian:
       - auth
     defaults_file:
       path: /etc/default/dovecot
+    sieve_global_dir:
+      path: /etc/dovecot/sieve
+    main:
+      path: /etc/dovecot/dovecot.conf
+      template_path: salt://dovecot/files/main
+    common:
+      path: /etc/dovecot/conf.d/5-common.conf
+    master:
+      path: /etc/dovecot/conf.d/10-master.conf
+    mail:
+      path: /etc/dovecot/conf.d/10-mail.conf
+    logging:
+      path: /etc/dovecot/conf.d/10-logging.conf
+    auth:
+      path: /etc/dovecot/conf.d/10-auth.conf
+    ssl:
+      path: /etc/dovecot/conf.d/10-ssl.conf
+    lda:
+      path: /etc/dovecot/conf.d/15-lda.conf
+    mailboxes:
+      path: /etc/dovecot/conf.d/15-mailboxes.conf
+    managesieve:
+      path: /etc/dovecot/conf.d/20-managesieve.conf
+    lmtp:
+      path: /etc/dovecot/conf.d/20-lmtp.conf
+    pop3:
+      path: /etc/dovecot/conf.d/20-pop3.conf
+    imap:
+      path: /etc/dovecot/conf.d/20-imap.conf
+    quota:
+      path: /etc/dovecot/conf.d/90-quota.conf
+    sieve:
+      path: /etc/dovecot/conf.d/90-sieve.conf
+    auth_passwdfile:
+      path: /etc/dovecot/conf.d/95-auth-passwdfile.conf
+RedHat:
+  pkgs:
+    - dovecot
+  service: {}
+  config:
+    manage:
+      - main
+      - common
+      - lda
+      - logging
+      - quota
+      - sieve
+      - master
+      - mail
+      - mailboxes
+      - ssl
+      - managesieve
+      - pop3
+      - imap
+      - auth_passwdfile
+      - auth
     sieve_global_dir:
       path: /etc/dovecot/sieve
     main:

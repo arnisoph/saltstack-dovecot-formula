@@ -15,7 +15,8 @@ dovecot:
     - name: {{ datamap.service.name|default('dovecot') }}
     - enable: {{ datamap.service.enable|default(True) }}
 
-{% set f = datamap.config.defaults_file|default({}) %}
+{% if 'defaults_file' in datamap.config.manage|default([]) %}
+  {% set f = datamap.config.defaults_file|default({}) %}
 dovecot_defaults_file:
   file:
     - managed
@@ -27,6 +28,7 @@ dovecot_defaults_file:
     - template: jinja
     - watch_in:
       - service: dovecot
+{% endif %}
 
 {% set f = datamap.config.dsync_backup_dir|default({}) %}
 dovecot_dsync_backup_dir:
@@ -59,7 +61,7 @@ dovecot_sieve_global_compile:
     - watch_in:
       - service: dovecot
 
-{% for i in datamap.config.manage|default([]) %}
+{% for i in datamap.config.manage|default([]) if i != 'defaults_file' %}
   {% set f = datamap.config[i] %}
 dovecot_file_{{ i }}:
   file:
