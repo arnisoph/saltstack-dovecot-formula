@@ -39,7 +39,8 @@ dovecot_dsync_backup_dir:
     - user: {{ f.user|default('mail') }}
     - group: {{ f.group|default('mail') }}
 
-{% set f = datamap.config.sieve_global_dir|default({}) %}
+{% if 'sieve' in datamap.config.manage|default([]) %}
+  {% set f = datamap.config.sieve_global_dir|default({}) %}
 dovecot_sieve_global_dir:
   file:
     - recurse
@@ -60,6 +61,7 @@ dovecot_sieve_global_compile:
       - file: dovecot_sieve_global_dir
     - watch_in:
       - service: dovecot
+{% endif %}
 
 {% for i in datamap.config.manage|default([]) if i != 'defaults_file' %}
   {% set f = datamap.config[i] %}
